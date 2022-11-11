@@ -1,0 +1,2 @@
+# etcdon
+Configure Mastodon
