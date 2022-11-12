@@ -1,0 +1,32 @@
+#!/bin/sh
+#
+
+upath=/home/mastodon/live/public/system
+apath=$upath/accounts
+mpath=$upath/media_attachments
+p="${DON_PATH:-$HOME/.config/etcdon}"
+
+echo "WARNING: Mastodon may have many gigs of user files--proceed with caution!"
+echo "Gathering user files, this may take a while..."
+
+# rsync's -c checksums the destination file against the error file to
+# ensure error-free delivery. This is best for data integrity, but it does slow
+# down the transfer considerably and could even cause your server to slow down
+# if resources are tight. You can remove the -c to speed up the job without
+# much risk as ssh ensures data sent matches data received-- -c is most likely
+# to catch an outside process modifying the file, a hardware issue like a flaky
+# device/driver, out of space hijinks, etc. Note that -c will not work
+# retroactively--you cannot use it to ensure your backup directory matches your
+# server directory after the fact.
+#
+# Other rsync(1) options you may find useful are -v to see files being
+# transferred, --progress to see a progress report, --partial to enable the
+# resumption of a partial transfer, -P for both --partial and --progress (this
+# is noisy--you probably want to pipe the output to a log).
+#
+if rsync -ac root@"$DON_HOST":"$apath"/ "$p"/local/accounts/ && \
+   rsync -ac root@"$DON_HOST":"$mpath"/ "$p"/local/media_attachments/; then
+    echo "OK"; exit 0
+else
+    echo "FAIL"; exit 1
+fi

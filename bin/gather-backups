@@ -6,5 +6,5 @@ p="${DON_PATH:-$HOME/.config/etcdon}"
 s="ssh root@$DON_HOST"
 
 echo "Gathering backups..."
-rsync -ac root@$DON_HOST:/$backup_dir/`$s ls -t $backup_dir | head -1` \
-  $p/local/ || { echo "FAIL"; exit 1; }
+rsync -ac root@"$DON_HOST":/"$backup_dir"/"$($s ls -t $backup_dir | head -1)" \
+  "$p"/local/ || { echo "FAIL"; exit 1; }
