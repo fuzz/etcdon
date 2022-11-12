@@ -4,8 +4,8 @@
 p="${DON_PATH:-$HOME/.config/etcdon}"
 
 echo "Gathering config files..."
-if rsync -ac --files-from="$p"/etc/gathered-config-files root@"$DON_HOST":/ \
-  "$p"/local/; then
+if rsync -ac --files-from="$p"/etc/gathered-config-files \
+  root@"$DON_HOST":/ "$p"/local/config; then
     echo "OK"
     exit 0
 else

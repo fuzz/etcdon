@@ -20,6 +20,9 @@ otherwise set it to the directory in which you do have etcdon installed.
 
 Set `DON_HOST` to the hostname or IP address of your Mastodon server.
 
+You may wish to copy/link `bin/don` into your `PATH` for convenience. The rest
+of this documentation will assume that you have done this.
+
 ## Backups
 
 The official Mastodon backup documentation is
@@ -34,42 +37,47 @@ data around and I did not come away with the impression that they are
 infallible. If there's data you care about losing you definitely should back
 it up yourself.
 
-### local/
+Gathered files are copied into `local/`, which is gitignored by etcdon--
+you may want to manage `local/config` in its own git repo or similar.
 
-Stores gathered configuration and backup files. local/ is ignored by etcdon--
-you may want to manage some or all of its contents with git or similar.
+### don commands for backup
 
-### bin/install-crontab-postgres
+don commands can be run with either the full name or the abbreviation, eg
+`don install-crontab-postgres` and `don icp` are equivalent.
 
-Install a crontab for the postgres user. The included crontab creates a
-compressed backup of the entire database every hour and cleans out all but the
-most recent 25 backups every day.
+#### gather-backups | gb
 
-### bin/gather-backups
+Copy backup files from the server into the `local/` directory. This includes
+the most recent Postgres backup as well as the current Redis dump. You may want
+to call this from cron periodically on your local machine. A new file will be
+created for each Postgres backup; the Redis dump, however, will be overwritten
+by design.
 
-Copy backup files from the server into the local/ directory. This includes the
-most recent Postgres backup as well as the current Redis dump. You may want to
-call this from cron periodically on your local machine. A new file will be
-created for each Postgres backup; the Redis dump, however, will be overwritten.
-
-### bin/gather-config-files
+#### gather-config-files | gcf
 
 Copy the files listed in `etc/gathered-config-files` from the server into the
-local/ directory. You may wish to call this from cron periodically on your
-local machine.
+`local/` directory. You may wish to call this from cron periodically on your
+local machine. These backup files are good candidate for git management.
 
-### bin/gather-secrets
+#### gather-secrets | gs
 
-Copy `.env.production` from the server into the local/ directory. This only
+Copy `.env.production` from the server into the `local/` directory. This only
 needs to be run once, though running it again won't hurt anything. You should
 avoid exposing this file, checking it into a public git repository, etc.
 
-### bin/gather-user-files
+#### gather-user-files | guf
 
 Copy user-uploaded files from the server into the local/ directory. The
 official instructions say to backup the entire `public/server` directory, but
 `gather-user-files` skips `public/server/cache` as it is rather large and can
 presumably be regenerated from the network in the unlikely event it is lost.
+
+#### install-crontab-postgres|icp
+
+Install a crontab for the postgres user. The included crontab creates a
+compressed backup of the entire database every hour and cleans out all but the
+most recent 25 backups every day. This only needs to be run once unless you
+want to change postgres's crontab.
 
 ## Tuning
 

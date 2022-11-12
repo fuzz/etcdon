@@ -1,3 +1,19 @@
 #!/bin/sh
 #
 
+p="${DON_PATH:-$HOME/.config/etcdon}"
+
+case "$1" in
+    gb|gather-backups) "$p"/bin/gather-backups
+    ;;
+    gcf|gather-config-files) "$p"/bin/gather-config-files
+    ;;
+    gs|gather-secrets) "$p"/bin/gather-secrets
+    ;;
+    guf|gather-user-files) "$p"/bin/gather-user-files
+    ;;
+    icp|install-crontab-postgres) "$p"/bin/install-crontab-postgres
+    ;;
+    *) echo "don: command not recognized--try gb|gcf|gs|guf|icp"
+    ;;
+esac
