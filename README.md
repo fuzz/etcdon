@@ -47,8 +47,10 @@ most recent 25 backups every day.
 
 ### bin/gather-backups
 
-Copy backup files from the server into the local/ directory. You may want to
-call this from cron periodically on your local machine.
+Copy backup files from the server into the local/ directory. This includes the
+most recent Postgres backup as well as the current Redis dump. You may want to
+call this from cron periodically on your local machine. A new file will be
+created for each Postgres backup; the Redis dump, however, will be overwritten.
 
 ### bin/gather-config-files
 

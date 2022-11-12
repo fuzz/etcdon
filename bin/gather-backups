@@ -1,10 +1,15 @@
 #!/bin/sh
 #
 
-backup_dir=/var/lib/postgresql/backups
+b=/var/lib/postgresql/backups
 p="${DON_PATH:-$HOME/.config/etcdon}"
 s="ssh root@$DON_HOST"
 
 echo "Gathering backups..."
-rsync -ac root@"$DON_HOST":/"$backup_dir"/"$($s ls -t $backup_dir | head -1)" \
-  "$p"/local/ || { echo "FAIL"; exit 1; }
+if rsync -ac root@"$DON_HOST":/"$b"/"$($s ls -t $b | head -1)" \
+  "$p"/local/ && \
+  rsync -ac root@"$DON_HOST":/var/lib/redis/dump.rdb "$p"/local/; then
+    echo "OK"; exit 0
+else
+    echo "FAIL"; exit 1
+fi
