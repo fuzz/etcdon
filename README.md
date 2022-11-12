@@ -20,6 +20,14 @@ otherwise set it to the directory in which you do have etcdon installed.
 
 Set `DON_HOST` to the IP address of your Mastodon server.
 
+## Backups
+
+Currently etcdon only has one backup feature, `bin/postgres-crontab-install`,
+which does what it says on the tin--it installs a crontab for the postgres
+user. The crontab creates a compressed backup of the entire database every hour
+and cleans out all but the most recent 25 backups every day. More backup
+features are in progress.
+
 ## Tuning
 
 The official documentation is
