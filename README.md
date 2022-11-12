@@ -18,11 +18,11 @@ etcdon is MIT licensed so you can fork it and do as you please.
 You do not need to set `DON_PATH` if you install etcdon in `~/.config/etcdon`,
 otherwise set it to the directory in which you do have etcdon installed.
 
-Set `DON_HOST` to the IP address of your Mastodon server.
+Set `DON_HOST` to the hostname or IP address of your Mastodon server.
 
 ## Backups
 
-The official backup documentation is
+The official Mastodon backup documentation is
 [here](https://docs.joinmastodon.org/admin/backups/).
 
 The docs state "If you are using an external object storage provider such as
@@ -55,6 +55,12 @@ call this from cron periodically on your local machine.
 Copy the files listed in `etc/gathered-config-files` from the server into the
 local/ directory. You may wish to call this from cron periodically on your
 local machine.
+
+### bin/gather-secrets
+
+Copy `.env.production` from the server into the local/ directory. This only
+needs to be run once, though running it again won't hurt anything. You should
+avoid exposing this file, checking it into a public git repository, etc.
 
 ### bin/gather-user-files
 
