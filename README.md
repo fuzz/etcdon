@@ -9,7 +9,7 @@ install](https://marketplace.digitalocean.com/apps/mastodon), currently version
 Please note etcdon at this time etcdon is a work in progress, meaning I will
 close any Issues opened without addressing them and, while I might accept a PR,
 I also might not. If and when I make a release of etcdon then Issues and PRs
-will be welcomed.
+will be welcomed. That said, feel free to reach out @fuzz@pine.cab.
 
 etcdon is MIT licensed so you can fork it and do as you please.
 
@@ -22,15 +22,35 @@ Set `DON_HOST` to the IP address of your Mastodon server.
 
 ## Backups
 
-Currently etcdon only has one backup feature, `bin/postgres-crontab-install`,
-which does what it says on the tin--it installs a crontab for the postgres
-user. The crontab creates a compressed backup of the entire database every hour
-and cleans out all but the most recent 25 backups every day. More backup
-features are in progress.
+The official backup documentation is
+[here](https://docs.joinmastodon.org/admin/backups/).
+
+### local/
+
+Stores gathered configuration and backup files. local/ is ignored by etcdon--
+you may want to manage some or all of its contents with git or similar.
+
+### bin/install-crontab-postgres
+
+Install a crontab for the postgres user. The included crontab creates a
+compressed backup of the entire database every hour and cleans out all but the
+most recent 25 backups every day.
+
+### bin/gather-backups
+
+Copy backup files from the server into the local/ directory. You may want to
+call this from cron periodically on your local machine.
+
+### bin/gather-config-files
+
+Copy the files listed in `etc/gathered-config-files` from the server into the
+local/ directory. You may wish to call this from cron periodically on your
+local machine.
 
 ## Tuning
 
-The official documentation is
+The official tuning (they call it "scaling" but you don't require scale to
+benefit from tuning) is
 [here](https://docs.joinmastodon.org/admin/scaling/).
 
 [This
@@ -39,7 +59,7 @@ required reading but mostly focused on Docker.
 
 ### Environment variables
 
-These are the relevant tuning knobs I know about so far. There are likely
+These are the relevant tuning knobs I know about so far; there are likely
 more.
 
 ```

@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+
+p="${DON_PATH:-$HOME/.config/etcdon}"
+s="ssh root@$DON_HOST"
+
+echo "Gathering config files..."
+if rsync -ac --files-from="$p"/etc/gathered-config-files root@"$DON_HOST":/ \
+  "$p"/local/; then
+    echo "OK"
+    exit 0
+else
+    echo "FAIL"
+    exit 1
+fi
