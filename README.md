@@ -23,21 +23,19 @@ very helpful but mostly focused on Docker.
 
 ### Environment variables
 
-| file | relevant code |
-|------|---------------|
-| config/database.yml | `<%= ENV["DB_POOL"] \|\| ENV['MAX_THREADS'] \|\| 5 %>` |
-| config/puma.rb | `threads_count = ENV.fetch('MAX_THREADS') { 5 }.to_i` |
-| config/puma.rb | `workers: ENV.fetch('WEB_CONCURRENCY') { 2 }` |
-| dist/mastodon-streaming.service | `Environment="STREAMING_CLUSTER_NUM=1"` |
-| lib/mastodon/redis_config.rb | `pool_size: Sidekiq.server? ? Sidekiq.options[:concurrency] : Integer(ENV['MAX_THREADS'] \|\| 5)` |
-| lib/redis_configuration.rb | `ENV['MAX_THREADS'] \|\| 5` |
-| streaming/index.js | `const numWorkers = +process.env.STREAMING_CLUSTER_NUM \|\| (env === 'development' ? 1 : Math.max(os.cpus().length - 1, 1));` |
-
 ```
+config/database.yml: <%= ENV["DB_POOL"] || ENV['MAX_THREADS'] || 5 %>
+config/puma.rb: threads_count = ENV.fetch('MAX_THREADS') { 5 }.to_i
+config/puma.rb: workers: ENV.fetch('WEB_CONCURRENCY') { 2 }
+dist/mastodon-streaming.service: Environment="STREAMING_CLUSTER_NUM=1"
+lib/mastodon/redis_config.rb: pool_size: Sidekiq.server? ? Sidekiq.options[:concurrency] : Integer(ENV['MAX_THREADS'] || 5)
+lib/redis_configuration.rb: ENV['MAX_THREADS'] || 5
+streaming/index.js: const numWorkers = +process.env.STREAMING_CLUSTER_NUM || (env === 'development' ? 1 : Math.max(os.cpus().length - 1, 1));
+
 DB_POOL
 MAX_THREADS
 PUMA_MAX_THREADS
 RAILS_MAX_THREADS
-STREAMING_CLUSTER_NUM # set: mastodon-streaming.service read: streaming/index.js
+STREAMING_CLUSTER_NUM
 WEB_CONCURRENCY
 ```
