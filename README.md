@@ -1,9 +1,10 @@
 # etcdon
 
-These are YAML-free tools for managing Mastodon. The scripts themselves are
-POSIX shell but they do rely on They are written against the
-Digital Ocean one-click Mastodon install and may need to be modified for other
-installations.
+etcdon is a tool for managing Mastodon. The scripts are POSIX shell but etcdon
+itself is not POSIX compliant as it relies on tools like rsync(1). etcdon is
+written against the [Digital Ocean 1-click Mastodon
+install](https://marketplace.digitalocean.com/apps/mastodon), currently version
+3.5.3, and may need modification for other installations.
 
 ## Configuration
 
@@ -23,7 +24,7 @@ very helpful but mostly focused on Docker.
 
 ### Environment variables
 
-These are the relevant tuning knobs.
+These are the relevant tuning knobs:
 
 ```
 DB_POOL
@@ -34,10 +35,10 @@ STREAMING_CLUSTER_NUM
 WEB_CONCURRENCY
 ```
 
-These are from the [Digital Ocean
-1-Click](https://marketplace.digitalocean.com/apps/mastodon) droplet, version
-3.5.3--other installations may be different. As you can see, `DB_POOL` is set
-by `mastodon-sidekiq.service` and `STREAMING_CLUSTER_NUM` by
+The below are from the [Digital Ocean 1-Click Mastodon
+install](https://marketplace.digitalocean.com/apps/mastodon), version
+3.5.3--other installations may differ. As you can see, systemd(1) sets
+`DB_POOL` with `mastodon-sidekiq.service` and `STREAMING_CLUSTER_NUM` with
 `mastodon-streaming.service`.
 
 ```
