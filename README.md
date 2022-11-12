@@ -27,11 +27,12 @@ The official backup documentation is
 
 The docs state "If you are using an external object storage provider such as
 Amazon S3, Google Cloud or Wasabi, then you don’t need to worry about backing
-(user loaded) up." which is fine advice if your user-uploaded content is
-reposted cat photos and the like. But, and I do not mean to cast aspersions, I
-have spoken at length with the team at AWS responsible for moving data around
-and I did not come away with the impression that they are infallible. If
-there's data you care about losing you definitely want to back it up yourself.
+(user-uploaded content) up." which is fine advice if your user-uploaded content
+is reposted cat photos and the like. But, while I do not mean to cast
+aspersions, I have spoken at length with the team at AWS responsible for moving
+data around and I did not come away with the impression that they are
+infallible. If there's data you care about losing you definitely should back
+it up yourself.
 
 ### local/
 
@@ -54,6 +55,13 @@ call this from cron periodically on your local machine.
 Copy the files listed in `etc/gathered-config-files` from the server into the
 local/ directory. You may wish to call this from cron periodically on your
 local machine.
+
+### bin/gather-user-files
+
+Copy user-uploaded files from the server into the local/ directory. The
+official instructions say to backup the entire `public/server` directory, but
+`gather-user-files` skips `public/server/cache` as it is rather large and can
+presumably be regenerated from the network in the unlikely event it is lost.
 
 ## Tuning
 
