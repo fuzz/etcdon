@@ -25,6 +25,14 @@ Set `DON_HOST` to the IP address of your Mastodon server.
 The official backup documentation is
 [here](https://docs.joinmastodon.org/admin/backups/).
 
+The docs state "If you are using an external object storage provider such as
+Amazon S3, Google Cloud or Wasabi, then you don’t need to worry about backing
+(user loaded) up." which is fine advice if your user-uploaded content is
+reposted cat photos and the like. But, and I do not mean to cast aspersions, I
+have spoken at length with the team at AWS responsible for moving data around
+and I did not come away with the impression that they are infallible. If
+there's data you care about losing you definitely want to back it up yourself.
+
 ### local/
 
 Stores gathered configuration and backup files. local/ is ignored by etcdon--
