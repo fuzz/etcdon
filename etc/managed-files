@@ -1,0 +1,9 @@
+/etc/crontab
+/etc/postgresql/15/main/postgresql.conf
+/home/mastodon/live/app/lib/redis_configuration.rb
+/home/mastodon/live/config/database.yml
+/home/mastodon/live/config/puma.rb
+/home/mastodon/live/config/sidekiq.yml
+/home/mastodon/live/dist/mastodon-sidekiq.service
+/home/mastodon/live/dist/mastodon-streaming.service
+/home/mastodon/live/lib/mastodon/redis_config.rb
