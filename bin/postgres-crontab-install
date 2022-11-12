@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+
+path="${DON_PATH:-$HOME/.config/etcdon}"
+
+scp $path/etc/postgres-crontab root@$DON_HOST:~/
+ssh root@$DON_HOST "crontab -u postgres postgres-crontab; rm postgres-crontab"

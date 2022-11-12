@@ -1,0 +1,8 @@
+# crontab for postgres user--'sudo crontab -u postgres postgres-crontab' to
+# install. This will create a compressed backup of the entire Postgres database
+# once an hour. Once a day all but the most recent 25 backups will be removed,
+# thus retaining a little more than a day's worth of hourly backups. Older
+# backups are kept elsewhere to prevent them from accidentally being restored
+# during a recovery event.
+@hourly pg_dumpall | gzip > $HOME/backups/$(date +\%Y-\%m-\%d_\%H).sql.gz
+@daily  cd $HOME/backups; ls -tp|grep -v '/$'|tail -n +26|xargs -I {} rm -- {}
