@@ -35,26 +35,27 @@ The official documentation is
 
 [This
 article](https://nora.codes/post/scaling-mastodon-in-the-face-of-an-exodus/) is
-very helpful but mostly focused on Docker.
+required reading but mostly focused on Docker.
 
 ### Environment variables
 
-These are the relevant tuning knobs:
+These are the relevant tuning knobs I know about so far. There are likely
+more.
 
 ```
 DB_POOL
 MAX_THREADS
 PUMA_MAX_THREADS  # you probably don't need this
 RAILS_MAX_THREADS # you probably don't need this
+Sidekiq.options[:concurrency]
+Sidekiq.options[:queues]
 STREAMING_CLUSTER_NUM
 WEB_CONCURRENCY
 ```
 
 The below are from the [Digital Ocean 1-Click Mastodon
 install](https://marketplace.digitalocean.com/apps/mastodon), version
-3.5.3--other installations may differ. As you can see, systemd(1) sets
-`DB_POOL` with `mastodon-sidekiq.service` and `STREAMING_CLUSTER_NUM` with
-`mastodon-streaming.service`.
+3.5.3--other installations may differ.
 
 ```
 app/lib/redis_configuration.rb:
@@ -72,6 +73,7 @@ config/puma.rb: threads_count = ENV.fetch('MAX_THREADS') { 5 }.to_i
 
 config/puma.rb: workers: ENV.fetch('WEB_CONCURRENCY') { 2 }
 
+# Sidekiq.options[:concurrency] and Sidekiq.options[:queues] are set here
 config/sidekiq.yml:
 :concurrency: 5
 :queues:
@@ -81,8 +83,10 @@ config/sidekiq.yml:
   - [pull]
   - [scheduler]
 
+# systemd(1) uses this to set DB_POOL
 dist/mastodon-sidekiq.service: Environment="DB_POOL=25"
 
+# systemd(1) uses this to set STREAMING_CLUSTER_NUM
 dist/mastodon-streaming.service: Environment="STREAMING_CLUSTER_NUM=1"
 
 lib/mastodon/redis_config.rb:
