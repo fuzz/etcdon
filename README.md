@@ -31,6 +31,21 @@ etcdon backups have three primary components:
 1. Cron jobs that run on your local machine (or wherever your backups go) to
    collect and prune backups
 
+Additionally etcdon assumes that your local machine (or wherever your backups
+go) is itself backed up. If this is not the case and you really don't want to
+set backups up for some reason (backups are your friend!) you should take
+additional backup steps as etcdon alone will not save you from scenarios like
+data corruption on the server--etcdon will happily sync over the corrupt data,
+leaving you bad data on both sides. Our Postgres backups are
+largely immune to this as we keep several copies of those, and keeping configs
+in a git repo as recommended will protect those. Losing the Redis backup isn't
+catastrophic so we don't worry about it. That leaves uploads, which are left as
+an exercise to the sysop as they may be quite large--there's no
+one-size-fits-all solution besides letting your local backup system take care
+of it (assuming you have the room). Of course you can use S3 or similar for
+backups, and I'll probably get around to adding support for it, but etcdon is
+local first as much as possible.
+
 The official Mastodon backup documentation is
 [here](https://docs.joinmastodon.org/admin/backups/).
 
@@ -69,7 +84,13 @@ this action will overwrite an existing crontab.
 
 Remove all but the 10 most recent database backups stored on the local machine.
 
-#### gather-backups | gb
+#### gather-configs | gc
+
+Copy the files listed in `etc/gathered-config-files` from the server into the
+`local/` directory. You may wish to call this from cron periodically on your
+local machine. These backup files are a good candidate for git management.
+
+#### gather-databases | gd
 
 Copy backup files from the server into the `local/` directory. This includes
 the most recent Postgres backup as well as the current Redis dump. You may want
@@ -77,25 +98,19 @@ to call this from cron periodically on your local machine. A new file will be
 created for each Postgres backup; the Redis dump, however, will be overwritten
 by design.
 
-#### gather-config-files | gcf
-
-Copy the files listed in `etc/gathered-config-files` from the server into the
-`local/` directory. You may wish to call this from cron periodically on your
-local machine. These backup files are a good candidate for git management.
-
 #### gather-secrets | gs
 
 Copy `.env.production` from the server into the `local/` directory. This only
 needs to be run once, though running it again won't hurt anything. You should
 avoid exposing this file, checking it into a public git repository, etc.
 
-#### gather-user-files | guf
+#### gather-uploads | gu
 
-Copy user-uploaded files from the server into the local/ directory. The
+Copy user-uploaded files from the server into the `local/` directory. The
 official instructions say to backup the entire `public/server` directory, but
-`gather-user-files` skips `public/server/cache` as it is rather large and can
+`gather-uploads` skips `public/server/cache` as it is rather large and can
 presumably be regenerated from the network in the unlikely event it is lost.
-See comments in `bin/gather-user-files` for rsync(1) considerations.
+See comments in `bin/gather-uploads` for rsync(1) considerations.
 
 #### install-crontab-postgres | icp
 
