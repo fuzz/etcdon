@@ -7,8 +7,15 @@ and clear style that can be easily understood and modified by non-programmers
 to accomplish their goals.
 
 etcdon does not support Windows directly as I do not use Windows, but it should
-work on [Cygwin](https://www.cygwin.com/) if you install the [Cygwin rsync
-package](https://www.cygwin.com/packages/summary/rsync.html).
+work on [Cygwin](https://www.cygwin.com/) if you install the
+[cron](https://cygwin.com/packages/summary/cron.html),
+[git](https://cygwin.com/packages/summary/git.html),
+[openssh](https://cygwin.com/packages/summary/openssh.html) and
+[rsync](https://www.cygwin.com/packages/summary/rsync.html) packages and use
+`ln -vfs ~/.config/etcdon/bin/don /usr/bin/` in place of the `sudo ln -vfs
+~/.config/etcdon/bin/don /usr/local/bin/` command in the QuickStart below. You
+should use Cygwin terminal window rather than the Windows terminal window to
+set up etcdon.
 
 etcdon is written against the [Digital Ocean 1-click Mastodon
 install](https://marketplace.digitalocean.com/apps/mastodon), currently version
