@@ -4,7 +4,7 @@
 p="${DON_PATH:-$HOME/.config/etcdon}"
 
 echo "Removing all but the ten most recent postgres backups..."
-cd "$p"/local/postgres
+cd "$p"/local/postgres || { echo "FAIL: cannot access directory"; exit 1; }
 if ls -tp | grep -v '/$' |tail -n +11 | xargs -I {} rm -v -- {}; then
     echo "OK"; exit 0
 else
