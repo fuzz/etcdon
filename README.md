@@ -30,6 +30,7 @@ etcdon backups have three primary components:
    friend's server
 1. Cron jobs that run on your local machine (or wherever your backups go) to
    collect and prune backups
+
 The official Mastodon backup documentation is
 [here](https://docs.joinmastodon.org/admin/backups/).
 
