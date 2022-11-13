@@ -6,6 +6,10 @@ experience. It aims to provide sensible defaults and to be written in a simple
 and clear style that can be easily understood and modified by non-programmers
 to accomplish their goals.
 
+etcdon does not support Windows directly as I do not use Windows, but it should
+work on [Cygwin](https://www.cygwin.com/) if you install the [Cygwin rsync
+package](https://www.cygwin.com/packages/summary/rsync.html).
+
 etcdon is written against the [Digital Ocean 1-click Mastodon
 install](https://marketplace.digitalocean.com/apps/mastodon), currently version
 3.5.3, and may need modification for other installations.
