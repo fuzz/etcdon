@@ -14,10 +14,10 @@ Please note at this time etcdon is very much a work in progress.
 
 etcdon is MIT licensed so you can fork it and do as you please.
 
-## Quickstart
+## QuickStart
 
 Advanced users may wish to read further for more general instructions; if that
-doesn't sound like you start here! Open a terminal window and type in the
+doesn't sound like you, start here! Open a terminal window and type in the
 following, replacing `hostname_or_ip_address_of_your_server` with the
 hostname or IP address of your server. If you registered a domain and your
 server is just referred to by its domain name, that is also its hostname.
@@ -30,7 +30,7 @@ export DON_HOST=hostname_or_ip_address_of_your_server
 don gather-secrets
 ```
 
-### DON_HOST
+### QuickStart DON_HOST
 
 You also need to add the `export DON_HOST=hostname` line to (one of) your
 shell's configuration files so it loads automatically in the future. On Ubuntu
@@ -55,7 +55,7 @@ rather than using just one ">", which means "overwrite the existing file".
 If you are on a system other than macOS or Ubuntu you can use a search engine
 to figure out the appropriate file for your system.
 
-### Cron
+### QuickStart cron
 
 Consider the following command carefully before deciding to run it. It will
 install a `crontab` on your local machine that does two things:
@@ -77,7 +77,10 @@ crontab ~/.config/etc/crontab-local
 If the above command completes successfully it will return no output in the
 traditional "no news is good news" Unix style.
 
-### Quickstart conclusion
+To uninstall the crontab and stop the behavior described above type in
+`crontab -r`. You can reinstall it using the command above.
+
+### QuickStart conclusion
 
 If all of the commands above completed successfully, congratulations! You now
 have backups, though you should still look through the Backups section below
@@ -87,7 +90,7 @@ Configuration section that comes next; you already did that part.
 
 ## Configuration
 
-Skip this section if you successfully followed the Quickstart above.
+Skip this section if you successfully completed the QuickStart above.
 
 You do not need to set `DON_PATH` if you install etcdon in `~/.config/etcdon`,
 otherwise set it to the directory in which you do have etcdon installed.
