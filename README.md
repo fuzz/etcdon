@@ -6,7 +6,7 @@ written against the [Digital Ocean 1-click Mastodon
 install](https://marketplace.digitalocean.com/apps/mastodon), currently version
 3.5.3, and may need modification for other installations.
 
-Please note etcdon at this time etcdon is very much a work in progress.
+Please note at this time etcdon is very much a work in progress.
 
 etcdon is MIT licensed so you can fork it and do as you please.
 
