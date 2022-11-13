@@ -22,6 +22,14 @@ of this documentation will assume that you have done this.
 
 ## Backups
 
+etcdon backups have three primary components:
+1. Cron jobs that run as the postgres user hourly generating compressed
+   database backups and daily cleaning up all but the 25 most recent
+1. Scripts called by the `don` wrapper that gather files from the server to be
+   backed up on your local machine or maybe a backup server or a trusted
+   friend's server
+1. Cron jobs that run on your local machine (or wherever your backups go) to
+   collect and prune backups
 The official Mastodon backup documentation is
 [here](https://docs.joinmastodon.org/admin/backups/).
 
@@ -48,10 +56,17 @@ Copy backup, config and user files into the `local/` directory. See below for
 details. Note this does not back up the secrets file as that only needs to
 happen once--run `don gather-secrets` to back up the secrets file.
 
-`5 12 * * * don all` added to your local crontab will back up your server to
-your local machine every day five minutes after noon. If you don't have an
-existing local crontab you can run `crontab etc/crontab-local` to install one
-that contains the above line--this action will overwrite an existing crontab.
+`5 12 * * * don all > /tmp/don-all.log` added to your local crontab will back
+up your server to your local machine every day five minutes after noon.
+`25 12 * * wed don clean-backups > /tmp/don-clean-backups.log`
+will help keep your database backups under control on Wednesdays at 25 minutes
+after noon. If you do not have an existing local crontab you can run `crontab
+etc/crontab-local` to install one that contains the above entries--be aware
+this action will overwrite an existing crontab.
+
+#### clean-backups | cb
+
+Remove all but the 10 most recent database backups stored on the local machine.
 
 #### gather-backups | gb
 
@@ -79,6 +94,7 @@ Copy user-uploaded files from the server into the local/ directory. The
 official instructions say to backup the entire `public/server` directory, but
 `gather-user-files` skips `public/server/cache` as it is rather large and can
 presumably be regenerated from the network in the unlikely event it is lost.
+See comments in `bin/gather-user-files` for rsync(1) considerations.
 
 #### install-crontab-postgres | icp
 

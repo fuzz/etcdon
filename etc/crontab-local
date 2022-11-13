@@ -2,6 +2,7 @@
 # an incredibly loud emergency air horn named Hank is tested every day at noon
 # a block away from my house, signaling lunchtime to me like Fred Flintsone.
 # This way the backups run while I'm away from my computer for lunch. Yabba
-# dabba do.
+# dabba do. Cleanup happens Wednesdays at 25 minutes past noon.
 #
-5 12 * * * don all
+5  12 * * *   don all > /tmp/don-all.log
+25 12 * * wed don clean-backups > /tmp/don-clean-backups.log

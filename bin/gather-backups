@@ -7,8 +7,8 @@ s="ssh root@$DON_HOST"
 
 echo "Gathering backups..."
 if rsync -ac root@"$DON_HOST":/"$b"/"$($s ls -t $b | head -1)" \
-  "$p"/local/ && \
-  rsync -ac root@"$DON_HOST":/var/lib/redis/dump.rdb "$p"/local/; then
+  "$p"/local/postgres/ && \
+  rsync -ac root@"$DON_HOST":/var/lib/redis/dump.rdb "$p"/local/redis/; then
     echo "OK"; exit 0
 else
     echo "FAIL"; exit 1

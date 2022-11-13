@@ -1,20 +1,18 @@
 #!/bin/sh
 #
 
-upath=/home/mastodon/live/public/system
-apath=$upath/accounts
-mpath=$upath/media_attachments
 p="${DON_PATH:-$HOME/.config/etcdon}"
+upath=/home/mastodon/live/public/system
 
 echo "WARNING: Mastodon may have many gigs of user files--proceed with caution!"
 echo "Gathering user files, this may take a while..."
 
-# rsync's -c checksums the destination file against the error file to
-# ensure error-free delivery. This is best for data integrity, but it does slow
-# down the transfer considerably and could even cause your server to slow down
-# if resources are tight. You can remove the -c to speed up the job without
-# much risk as ssh ensures data sent matches data received-- -c is most likely
-# to catch an outside process modifying the file, a hardware issue like a flaky
+# rsync(1)'s -c checksums the destination file against the error file to ensure
+# error-free delivery. This is best for data integrity, but it does slow down
+# the transfer considerably and could even cause your server to slow down if
+# resources are tight. You can remove the -c to speed up the job without much
+# risk as ssh ensures data sent matches data received-- -c is most likely to
+# catch an outside process modifying the file, a hardware issue like a flaky
 # device/driver, out of space hijinks, etc. Note that -c will not work
 # retroactively--you cannot use it to ensure your backup directory matches your
 # server directory after the fact.
@@ -24,8 +22,19 @@ echo "Gathering user files, this may take a while..."
 # resumption of a partial transfer, -P for both --partial and --progress (this
 # is noisy--you probably want to pipe the output to a log).
 #
-if rsync -ac root@"$DON_HOST":"$apath"/ "$p"/local/accounts/ && \
-   rsync -ac root@"$DON_HOST":"$mpath"/ "$p"/local/media_attachments/; then
+# --delete-after tells rsync(1) to delete files on the receiving end that do
+# not exist on the sending end. This can be dangerous as if the directory on
+# the sending end is empty when rsync(1) runs it will empty the backup
+# directory on the receiving end. For this reason it should be used cautiously
+# and in concert with an additional backup of some sort. I am not using it
+# scripted at this time--which means deleted files may accumulate--but I may
+# enable it in the future if I determine accumulated deleted files cause
+# app instability if restored to the server. For now I am only going to run
+# --delete-after manually and not provide a script to guard against footguns.
+#
+r="rsync -ac"
+
+if $r --exclude=cache/ root@"$DON_HOST":"$upath"/ "$p"/local/user/; then
     echo "OK"; exit 0
 else
     echo "FAIL"; exit 1
