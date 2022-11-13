@@ -82,7 +82,7 @@ want to change postgres's crontab.
 ## Tuning
 
 The official tuning (they call it "scaling" but you don't require scale to
-benefit from tuning) is
+benefit from tuning) guide is
 [here](https://docs.joinmastodon.org/admin/scaling/).
 
 [This
