@@ -82,21 +82,19 @@ this action will overwrite an existing crontab.
 
 #### clean-backups | cb
 
-Remove all but the 10 most recent database backups stored on the local machine.
+Remove all but the 10 most recent Postgres backups stored on the local machine.
 
 #### gather-configs | gc
 
-Copy the files listed in `etc/gathered-config-files` from the server into the
-`local/` directory. You may wish to call this from cron periodically on your
-local machine. These backup files are a good candidate for git management.
+Copy the files listed in `etc/gathered-configs` from the server into the
+`local/` directory. `local/configs` is a good candidate for git management.
 
 #### gather-databases | gd
 
 Copy backup files from the server into the `local/` directory. This includes
-the most recent Postgres backup as well as the current Redis dump. You may want
-to call this from cron periodically on your local machine. A new file will be
-created for each Postgres backup; the Redis dump, however, will be overwritten
-by design.
+the most recent Postgres backup as well as the current Redis dump. A new file
+will be created for each Postgres backup; the Redis dump, however, will be
+overwritten by design.
 
 #### gather-secrets | gs
 
