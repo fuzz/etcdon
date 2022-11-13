@@ -1,8 +1,11 @@
 # etcdon
 
-etcdon is a tool for managing Mastodon. The scripts are POSIX shell but etcdon
-itself is not POSIX compliant as it relies on tools like rsync(1). etcdon is
-written against the [Digital Ocean 1-click Mastodon
+etcdon is a friendly tool for managing Mastodon servers intended for folks who
+may not have much administration experience. It aims to provide sensible
+defaults and be written in a simple and clear style that can be easily
+understood and modified by non-programmers to accomplish their goals.
+
+etcdon is written against the [Digital Ocean 1-click Mastodon
 install](https://marketplace.digitalocean.com/apps/mastodon), currently version
 3.5.3, and may need modification for other installations.
 
