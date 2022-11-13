@@ -4,6 +4,12 @@
 p="${DON_PATH:-$HOME/.config/etcdon}"
 
 case "$1" in
+    a|all)
+        echo "Gathering all except secrets--run 'don gather-secrets' for that"
+        don gather-backups
+        don gather-config-files
+        don gather-user-files
+    ;;
     gb|gather-backups) "$p"/bin/gather-backups
     ;;
     gcf|gather-config-files) "$p"/bin/gather-config-files
@@ -14,6 +20,6 @@ case "$1" in
     ;;
     icp|install-crontab-postgres) "$p"/bin/install-crontab-postgres
     ;;
-    *) echo "don: command not recognized--try gb|gcf|gs|guf|icp"
+    *) echo "don: command not recognized--try a|gb|gcf|gs|guf|icp"
     ;;
 esac

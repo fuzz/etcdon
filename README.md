@@ -45,6 +45,12 @@ you may want to manage `local/config` in its own git repo or similar.
 don commands can be run with either the full name or the abbreviation, eg
 `don install-crontab-postgres` and `don icp` are equivalent.
 
+#### all | a
+
+Copy backup, config and user files into the `local/` directory. See below for
+details. Note this does not back up the secrets file as that only needs to
+happen once--run `don gather-secrets` to back up the secrets file.
+
 #### gather-backups | gb
 
 Copy backup files from the server into the `local/` directory. This includes
@@ -72,7 +78,7 @@ official instructions say to backup the entire `public/server` directory, but
 `gather-user-files` skips `public/server/cache` as it is rather large and can
 presumably be regenerated from the network in the unlikely event it is lost.
 
-#### install-crontab-postgres|icp
+#### install-crontab-postgres | icp
 
 Install a crontab for the postgres user. The included crontab creates a
 compressed backup of the entire database every hour and cleans out all but the
