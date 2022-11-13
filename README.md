@@ -34,7 +34,7 @@ don gather-secrets
 
 You also need to add the `export DON_HOST=hostname` line to (one of) your
 shell's configuration files so it loads automatically in the future. On Ubuntu
-this is a file named `.profile`, that is in your home directory. You can add
+this is a file named `.profile` that is in your home directory. You can add
 the line to it by typing the following, replacing `hostname` with the hostname
 or IP address of your server.
 
