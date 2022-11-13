@@ -1,9 +1,10 @@
 # etcdon
 
-etcdon is a friendly tool for managing Mastodon servers intended for folks who
-may not have much administration experience. It aims to provide sensible
-defaults and be written in a simple and clear style that can be easily
-understood and modified by non-programmers to accomplish their goals.
+etcdon is a friendly tool for managing Mastodon servers intended to be
+accessible to folks who may not have much administration or programming
+experience. It aims to provide sensible defaults and to be written in a simple
+and clear style that can be easily understood and modified by non-programmers
+to accomplish their goals.
 
 etcdon is written against the [Digital Ocean 1-click Mastodon
 install](https://marketplace.digitalocean.com/apps/mastodon), currently version
@@ -13,7 +14,80 @@ Please note at this time etcdon is very much a work in progress.
 
 etcdon is MIT licensed so you can fork it and do as you please.
 
+## Quickstart
+
+Advanced users may wish to read further for more general instructions; if that
+doesn't sound like you start here! Open a terminal window and type in the
+following, replacing `hostname_or_ip_address_of_your_server` with the
+hostname or IP address of your server. If you registered a domain and your
+server is just referred to by its domain name, that is also its hostname.
+
+```
+mkdir -p ~/.config
+git clone https://github.com/fuzz/etcdon.git ~/.config/etcdon
+sudo ln -vfs ~/.config/etcdon/bin/don /usr/local/bin/
+export DON_HOST=hostname_or_ip_address_of_your_server
+don gather-secrets
+```
+
+### DON_HOST
+
+You also need to add the `export DON_HOST=hostname` line to (one of) your
+shell's configuration files so it loads automatically in the future. On Ubuntu
+this is a file named `.profile`, that is in your home directory. You can add
+the line to it by typing the following, replacing `hostname` with the hostname
+or IP address of your server.
+
+```
+echo "export DON_HOST=hostname" >> ~/.profile
+```
+
+On macOS instead use the following, replacing `hostname` with the hostname or
+IP address of your server.
+
+```
+echo "export DON_HOST=hostname" >> /.zshenv
+```
+
+Be sure to use two ">>", which means "add to the end of the existing file",
+rather than using just one ">", which means "overwrite the existing file".
+
+If you are on a system other than macOS or Ubuntu you can use a search engine
+to figure out the appropriate file for your system.
+
+### Cron
+
+Consider the following command carefully before deciding to run it. It will
+install a `crontab` on your local machine that does two things:
+1. Gathers backups from your server to your local machine every day at 5
+   minutes after noon
+1. Prunes all but the most recent 10 database backups from your local machine
+   every Wedneday at 25 minutes after noon
+
+If you do not want these things to happen, or want them to happen in a
+different way or at different times, or you already have a crontab, do not run
+this command. You'll need to write your own cron job(s) instead, which is
+outside the scope of this documentation--you can learn more by typing in `man 5
+crontab`.
+
+```
+crontab ~/.config/etc/crontab-local
+```
+
+If the above command completes successfully it will return no output in the
+traditional "no news is good news" Unix style.
+
+### Quickstart conclusion
+
+If all of the commands above completed successfully, congratulations! You now
+have backups, though you should still look through the Backups section below
+for additional considerations and to learn more about what's going on in case
+something goes wrong or you'd like to customize etcdon. You can skip past the
+Configuration section that comes next; you already did that part.
+
 ## Configuration
+
+Skip this section if you successfully followed the Quickstart above.
 
 You do not need to set `DON_PATH` if you install etcdon in `~/.config/etcdon`,
 otherwise set it to the directory in which you do have etcdon installed.
