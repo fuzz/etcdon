@@ -51,6 +51,11 @@ Copy backup, config and user files into the `local/` directory. See below for
 details. Note this does not back up the secrets file as that only needs to
 happen once--run `don gather-secrets` to back up the secrets file.
 
+`5 12 * * * don all` added to your local crontab will back up your server to
+your local machine every day five minutes after noon. If you don't have an
+existing local crontab you can run `crontab etc/crontab-local` to install one
+that contains the above line--this action will overwrite an existing crontab.
+
 #### gather-backups | gb
 
 Copy backup files from the server into the `local/` directory. This includes

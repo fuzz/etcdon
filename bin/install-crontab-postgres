@@ -5,7 +5,7 @@ p="${DON_PATH:-$HOME/.config/etcdon}"
 s="ssh root@$DON_HOST"
 
 echo "Installing crontab for postgres user..."
-scp -q "$p"/etc/postgres-crontab root@"$DON_HOST":~/pgc
+scp -q "$p"/etc/crontab-postgres root@"$DON_HOST":~/pgc
 $s "mkdir -p backups && crontab -u postgres pgc"
 $s "crontab -u postgres -l | diff pgc - && touch pgc-ok"
 $s "if [ -f pgc-ok ]; then echo 'OK'; rm pgc pgc-ok; else echo 'FAIL'; fi"
