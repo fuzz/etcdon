@@ -59,7 +59,8 @@ is reposted cat photos and the like. But, while I do not mean to cast
 aspersions, I have spoken at length with the team at AWS responsible for moving
 data around and I did not come away with the impression that they are
 infallible. If there's data you care about losing you definitely should back
-it up yourself, however etcdon does not support backing up S3 at this time.
+it up yourself, however etcdon does not support backing up files stored on S3
+at this time.
 
 Gathered files are copied into `local/`, which is gitignored by
 etcdon--you may want to manage `local/config` in its own git repo or similar.
