@@ -33,27 +33,32 @@ don gather-secrets
 ### QuickStart DON_HOST
 
 You also need to add the `export DON_HOST=hostname` line to (one of) your
-shell's configuration files so it loads automatically in the future. On Ubuntu
-this is a file named `.profile` that is in your home directory. You can add
-the line to it by typing the following, replacing `hostname` with the hostname
-or IP address of your server.
+shell's configuration files so it loads automatically in the future.
+
+#### Ubuntu
+
+On Ubuntu type the following, replacing `hostname` with the hostname or IP
+address of your server. Be sure to use two ">>", which means "add to the end of
+the existing file", rather than using just one ">", which means "overwrite the
+existing file".
 
 ```
 echo "export DON_HOST=hostname" >> ~/.profile
 ```
 
-On macOS instead use the following, replacing `hostname` with the hostname or
-IP address of your server.
+#### macOS
+
+On macOS type the following, replacing `hostname` with the hostname or IP
+address of your server. Be sure to use two ">>", which means "add to the end of
+the existing file", rather than using just one ">", which means "overwrite the
+existing file".
 
 ```
 echo "export DON_HOST=hostname" >> /.zshenv
 ```
 
-Be sure to use two ">>", which means "add to the end of the existing file",
-rather than using just one ">", which means "overwrite the existing file".
-
 If you are on a system other than macOS or Ubuntu you can use a search engine
-to figure out the appropriate file for your system.
+to find the appropriate file for your system.
 
 ### QuickStart cron
 
@@ -105,18 +110,18 @@ of this documentation will assume that you have done this.
 etcdon backups have three primary components:
 1. Cron jobs that run as the postgres user hourly generating compressed
    database backups and daily cleaning up all but the 25 most recent
-1. Scripts called by the `don` wrapper that gather files from the server to be
+1. `don` scripts that, among other things, gather files from the server to be
    backed up on your local machine or maybe a backup server or a trusted
-   friend's server
-1. Cron jobs that run on your local machine (or wherever your backups go) to
-   collect and prune backups
+   friend's server--additional documentation is below
+1. Cron jobs that run on your local machine (or wherever your backups go) and
+   call `don` to collect and prune backups
 
 Additionally etcdon assumes that your local machine (or wherever your backups
 go) is itself backed up. If this is not the case and you really don't want to
 set backups up for some reason (backups are your friend!) you should take
 additional backup steps as etcdon alone will not save you from scenarios like
 data corruption on the server--etcdon will happily sync over the corrupt data,
-leaving you bad data on both sides. Our Postgres backups are
+leaving you bad data on both sides. Our database backups are
 largely immune to this as we keep several copies of those, and keeping configs
 in a git repo as recommended will protect those. Losing the Redis backup isn't
 catastrophic so we don't worry about it. That leaves uploads, which are left as
@@ -132,15 +137,15 @@ The official Mastodon backup documentation is
 The docs state "If you are using an external object storage provider such as
 Amazon S3, Google Cloud or Wasabi, then you don’t need to worry about backing
 (user-uploaded content) up." which is fine advice if your user-uploaded content
-is reposted cat photos and the like. But, while I do not mean to cast
-aspersions, I have spoken at length with the team at AWS responsible for moving
-data around and I did not come away with the impression that they are
-infallible. If there's data you care about losing you definitely should back
-it up yourself, however etcdon does not support backing up files stored on S3
-at this time.
+is reposted cat photos and the like. But, while services like S3 are quite
+robust, if there's data you really care about losing you should back it up onto
+hardware in your physical possession. etcdon does not support backing up files
+to or from cloud object storage providers like S3 at this time.
 
-Gathered files are copied into `local/`, which is gitignored by
-etcdon--you may want to manage `local/config` in its own git repo or similar.
+Gathered files are copied into `local/`, which is gitignored by etcdon--if you
+don't understand what this means, that's OK! You may want to manage
+`local/configs` in its own git repository if you decide to tune/scale your
+server, but you don't need to worry about any of that to get started.
 
 ### don commands for backup
 
@@ -199,6 +204,15 @@ most recent 25 backups every day. This only needs to be run once unless you
 want to change postgres's crontab.
 
 ## Tuning
+
+This section is more advanced than the Backups section and only needed if you
+need to tune the performance of your Mastodon server. If your server is
+performing well you should probably leave it alone.
+
+This section is incomplete as I am currently taking my own advice and not
+tuning the performance of my server--it's running just fine for now. I'll flesh
+this out when I tune my instance, but in the meantime the links and
+documentation below should be useful.
 
 The official tuning (they call it "scaling" but you don't require scale to
 benefit from tuning) guide is
