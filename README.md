@@ -81,7 +81,7 @@ by design.
 
 Copy the files listed in `etc/gathered-config-files` from the server into the
 `local/` directory. You may wish to call this from cron periodically on your
-local machine. These backup files are good candidate for git management.
+local machine. These backup files are a good candidate for git management.
 
 #### gather-secrets | gs
 
