@@ -5,4 +5,8 @@ p="${DON_PATH:-$HOME/.config/etcdon}"
 
 echo "Removing all but the ten most recent postgres backups..."
 cd "$p"/local/postgres
-ls -tp | grep -v '/$' |tail -n +11 | xargs -I {} rm -v -- {}
+if ls -tp | grep -v '/$' |tail -n +11 | xargs -I {} rm -v -- {}; then
+    echo "OK"; exit 0
+else
+    echo "FAIL"; exit 1
+fi
