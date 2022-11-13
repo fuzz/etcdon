@@ -2,10 +2,9 @@
 #
 
 p="${DON_PATH:-$HOME/.config/etcdon}"
-upath=/home/mastodon/live/public/system
+uploads_path=/home/mastodon/live/public/system
 
-echo "WARNING: Mastodon may have many gigs of user files--proceed with caution!"
-echo "Gathering user files, this may take a while..."
+echo -n "Gathering user uploads, this may take a while..."
 
 # rsync(1)'s -c checksums the destination file against the error file to ensure
 # error-free delivery. This is best for data integrity, but it does slow down
@@ -32,10 +31,10 @@ echo "Gathering user files, this may take a while..."
 # app instability if restored to the server. For now I am only going to run
 # --delete-after manually and not provide a script to guard against footguns.
 #
-r="rsync -ac"
+r="rsync -ac --exclude=cache/ root@$DON_HOST"
 
-if $r --exclude=cache/ root@"$DON_HOST":"$upath"/ "$p"/local/user/; then
-    echo "OK"; exit 0
+if $r:"$uploads_path"/ "$p"/local/uploads/; then
+    echo "[OK]"; exit 0
 else
-    echo "FAIL"; exit 1
+    echo "[FAIL]"; exit 1
 fi

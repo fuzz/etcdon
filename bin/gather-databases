@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+
+p="${DON_PATH:-$HOME/.config/etcdon}"
+r="rsync -ac root@$DON_HOST"
+s="ssh root@$DON_HOST"
+
+echo -n "Gathering database backups..."
+
+pg_backup_dir=/var/lib/postgresql/backups
+latest_pg_backup="$($s ls -t $pg_backup_dir | head -1)"
+
+if $r:/"$pg_backup_dir"/"$latest_pg_backup" "$p"/local/postgres/ && \
+   $r:/var/lib/redis/dump.rdb "$p"/local/redis/; then
+    echo "[OK]"; exit 0
+else
+    echo "[FAIL]"; exit 1
+fi
