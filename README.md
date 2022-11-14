@@ -14,8 +14,8 @@ work on [Cygwin](https://www.cygwin.com/) if you install the
 [rsync](https://www.cygwin.com/packages/summary/rsync.html) packages and use
 `ln -vfs ~/.config/etcdon/bin/don /usr/bin/` in place of the `sudo ln -vfs
 ~/.config/etcdon/bin/don /usr/local/bin/` command in the QuickStart below. You
-should use Cygwin terminal window rather than the Windows terminal window to
-set up etcdon.
+should use the Cygwin terminal window rather than the Windows terminal window
+to set up etcdon.
 
 etcdon is written against the [Digital Ocean 1-click Mastodon
 install](https://marketplace.digitalocean.com/apps/mastodon), currently version
