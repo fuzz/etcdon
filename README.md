@@ -33,13 +33,11 @@ following, replacing `hostname_or_ip_address_of_your_server` with the
 hostname or IP address of your server. If you registered a domain and your
 server is just referred to by its domain name, that is also its hostname.
 
-Note that the default configuration keeps up to 49 compressed backups of your
-database--on a 50MB database that works out to almost 400MB of backups. This is
+Note that the default configuration keeps up to 27 compressed backups of your
+database--on a 50MB database that works out to ~200MB of backups. This is
 fine on a smaller server or one with lots of disk space, but I am working to
 adjust this to something more sensible as etcdon intends to be lean and nice,
-despite those words not rhyming. That should be ready soon, along with a more
-robust local cron system (see QuickStart local cron section below) that checks
-hourly if the day's backup has run and runs it if it have not.
+despite those words not rhyming.
 
 ```
 mkdir -p ~/.config
@@ -85,7 +83,7 @@ to find the appropriate file for your system.
 Consider the following command carefully before deciding to run it. It will
 install a `crontab` on your local machine that does two things:
 1. Gathers backups from your server to your local machine once a day
-1. Prunes all but the most recent 10 database backups from your local machine
+1. Prunes all but the most recent five database backups from your local machine
    once a week
 
 If you do not want these things to happen, or want them to happen in a
@@ -128,7 +126,7 @@ of this documentation will assume that you have done this.
 
 etcdon backups have three primary components:
 1. Cron jobs that run as the postgres user hourly generating compressed
-   database backups and daily cleaning up all but the 25 most recent
+   database backups and daily cleaning up all but the three most recent
 1. `don` scripts that, among other things, gather files from the server to be
    backed up on your local machine or maybe a backup server or a trusted
    friend's server--additional documentation is below
@@ -183,8 +181,9 @@ Same as `all` but outputs to `tmp/don-all.log` rather than your screen.
 
 #### clean-backups-from-cron | cbfc
 
-Remove all but the 10 most recent Postgres backups stored on the local machine.
-Outputs to a log file, `tmp/clean-backups.log`, rather than your screen.
+Remove all but the five most recent Postgres backups stored on the local
+machine. Outputs to a log fie, `tmp/clean-backups.log`, rather than your
+screen.
 
 #### gather-configs | gc
 
@@ -216,7 +215,7 @@ See comments in `bin/gather-uploads` for rsync(1) considerations.
 
 Install a crontab for the postgres user. The included crontab creates a
 compressed backup of the entire database every hour and cleans out all but the
-most recent 25 backups every day. This only needs to be run once unless you
+most recent 3 backups every day. This only needs to be run once unless you
 want to change postgres's crontab.
 
 ## Tuning
