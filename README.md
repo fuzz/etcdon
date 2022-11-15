@@ -33,11 +33,20 @@ following, replacing `hostname_or_ip_address_of_your_server` with the
 hostname or IP address of your server. If you registered a domain and your
 server is just referred to by its domain name, that is also its hostname.
 
+Note that the default configuration keeps up to 49 compressed backups of your
+database--on a 50MB database that works out to almost 400MB of backups. This is
+fine on a smaller server or one with lots of disk space, but I am working to
+adjust this to something more sensible as etcdon intends to be lean and nice,
+despite those words not rhyming. That should be ready soon, along with a more
+robust local cron system (see QuickStart local cron section below) that checks
+hourly if the day's backup has run and runs it if it have not.
+
 ```
 mkdir -p ~/.config
 git clone https://github.com/fuzz/etcdon.git ~/.config/etcdon
 sudo ln -vfs ~/.config/etcdon/bin/don /usr/local/bin/
 export DON_HOST=hostname_or_ip_address_of_your_server
+don install-crontab-postgres
 don gather-secrets
 ```
 
@@ -71,7 +80,7 @@ echo "export DON_HOST=hostname" >> /.zshenv
 If you are on a system other than macOS or Ubuntu you can use a search engine
 to find the appropriate file for your system.
 
-### QuickStart cron
+### QuickStart local cron
 
 Consider the following command carefully before deciding to run it. It will
 install a `crontab` on your local machine that does two things:
