@@ -1,8 +1,7 @@
-# Example local crontab. I run my daily backup five minutes after noon because
-# an incredibly loud emergency air horn named Hank is tested every day at noon
-# a block away from my house, signaling lunchtime to me like Fred Flintsone.
-# This way the backups run while I'm away from my computer for lunch. Yabba
-# dabba do. Cleanup happens Wednesdays at 25 minutes past noon.
+# etcdon local crontab
 #
-5  12 * * *   don all > /tmp/don-all.log
-25 12 * * wed don clean-backups > /tmp/don-clean-backups.log
+# Every hour check to see if we need a backup
+@hourly don all-from-cron
+#
+# Every hour check to see if we need to clean up
+@hourly don clean-backups-from-cron

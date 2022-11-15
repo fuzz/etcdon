@@ -31,7 +31,7 @@ echo -n "Gathering user uploads, this may take a while..."
 # app instability if restored to the server. For now I am only going to run
 # --delete-after manually and not provide a script to guard against footguns.
 #
-r="rsync -ac --exclude=cache/ root@$DON_HOST"
+r="rsync -a --exclude=cache/ root@$DON_HOST"
 
 if $r:"$uploads_path"/ "$p"/local/uploads/; then
     echo "[OK]"; exit 0

@@ -10,7 +10,9 @@ case "$1" in
         don gather-databases
         don gather-uploads
     ;;
-    cb|clean-backups) "$p"/bin/clean-backups
+    afc|all-from-cron) "$p"/bin/all-from-cron
+    ;;
+    cbfc|clean-backups-from-cron) "$p"/bin/clean-backups-from-cron
     ;;
     gc|gather-configs) "$p"/bin/gather-configs
     ;;
@@ -22,6 +24,6 @@ case "$1" in
     ;;
     icp|install-crontab-postgres) "$p"/bin/install-crontab-postgres
     ;;
-    *) echo "don: command not recognized--try a|cb|gc|gd|gs|gu|icp"
+    *) echo "don: command not recognized--try a|gc|gd|gs|gu|icp"
     ;;
 esac

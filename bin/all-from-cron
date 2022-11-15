@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+
+p="${DON_PATH:-$HOME/.config/etcdon}"
+s="ssh root@$DON_HOST"
+touchfile=/var/lib/postgresql/.nobackup
+
+if $s [ -f "$touchfile" ]; then
+    don all > "$p"/tmp/don-all.log && $s rm "$touchfile"
+fi

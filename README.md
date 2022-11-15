@@ -84,10 +84,9 @@ to find the appropriate file for your system.
 
 Consider the following command carefully before deciding to run it. It will
 install a `crontab` on your local machine that does two things:
-1. Gathers backups from your server to your local machine every day at 5
-   minutes after noon
+1. Gathers backups from your server to your local machine once a day
 1. Prunes all but the most recent 10 database backups from your local machine
-   every Wedneday at 25 minutes after noon
+   once a week
 
 If you do not want these things to happen, or want them to happen in a
 different way or at different times, or you already have a crontab, do not run
@@ -178,17 +177,14 @@ Copy backup, config and user files into the `local/` directory. See below for
 details. Note this does not back up the secrets file as that only needs to
 happen once--run `don gather-secrets` to back up the secrets file.
 
-`5 12 * * * don all > /tmp/don-all.log` added to your local crontab will back
-up your server to your local machine every day five minutes after noon.
-`25 12 * * wed don clean-backups > /tmp/don-clean-backups.log`
-will help keep your database backups under control on Wednesdays at 25 minutes
-after noon. If you do not have an existing local crontab you can run `crontab
-etc/crontab-local` to install one that contains the above entries--be aware
-this action will overwrite an existing crontab.
+#### all-from-cron | afc
 
-#### clean-backups | cb
+Same as `all` but outputs to `tmp/don-all.log` rather than your screen.
+
+#### clean-backups-from-cron | cbfc
 
 Remove all but the 10 most recent Postgres backups stored on the local machine.
+Outputs to a log file, `tmp/clean-backups.log`, rather than your screen.
 
 #### gather-configs | gc
 

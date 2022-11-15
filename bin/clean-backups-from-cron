@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+
+p="${DON_PATH:-$HOME/.config/etcdon}"
+s="ssh root@$DON_HOST"
+log="$p"/tmp/clean-backups.log
+touchfile=/var/lib/postgresql/.unclean
+
+if $s [ -f "$touchfile" ] && cd "$p"/local/postgres; then
+    echo "Removing all but the five most recent database backups..." > $log
+    ls -tp | grep -v '/$' |tail -n +6 | xargs -I {} rm -v -- {} >> $log
+    $s rm -v "$touchfile" >> $log
+fi
