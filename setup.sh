@@ -24,8 +24,8 @@ fi
 sudo ln -vfs ~/.config/etcdon/bin/don /usr/local/bin/
 /usr/local/bin/don install-crontab-postgres
 /usr/local/bin/don gather-secrets
-echo "Last chance to ctrl-c to exit befoe I overwrite your crontab, you have"
-echo "five seconds. If you don't know what this is it doesn't apply to you :)"
-sleep 5
+echo "Last chance to ctrl-c to exit before I overwrite your crontab, you have"
+echo "ten seconds. If you don't know what this is it doesn't apply to you :)"
+sleep 10
 crontab "$p"/etc/crontab-local
 echo "Unless you see any errors above, congratulations!"
