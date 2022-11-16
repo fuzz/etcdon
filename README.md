@@ -27,7 +27,7 @@ your server is referred to by its domain name that is also its hostname. You
 will be asked for your password to complete the install.
 
 ```
-curl https://raw.githubusercontent.com/fuzz/etcdon/main/setup.sh | /bin/sh
+/bin/sh <(curl https://raw.githubusercontent.com/fuzz/etcdon/main/setup.sh)
 ```
 
 If you wish to stop etcdon from running, type `crontab -r` into a terminal
