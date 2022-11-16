@@ -9,7 +9,11 @@ echo -n "Installing crontab for postgres user..."
 scp -q "$p"/etc/crontab-postgres root@"$h":~/crontab-postgres
 
 $s /bin/sh<<EOF
-mkdir -p backups && crontab -u postgres crontab-postgres
+mkdir -p /var/lib/postgresql/backups
+chown postgres:postgres /var/lib/postgresql/backups
+
+crontab -u postgres crontab-postgres
+
 if crontab -u postgres -l | diff crontab-postgres - ; then
     echo '[OK]'; rm crontab-postgres; exit 0
 else
