@@ -5,12 +5,12 @@ p="$HOME"/.config/etcdon
 
 echo "Welcome to etcdon!"
 
-if [ -z "$p" ]; then
+if [ -d "$p" ]; then
+    echo "etcdon exists, skipping--use 'rm -rf ~/.config/etcdon' to remove"
+else
     echo "Cloning etcdon into ~/.config/etcdon..."
     mkdir -p ~/.config
     git clone https://github.com/fuzz/etcdon.git ~/.config/etcdon
-else
-    echo "etcdon exists, skipping--use 'rm -rf ~/.config/etcdon' to remove"
 fi
 
 echo "If you have an existing crontab you want to keep, use ctrl-c to exit"
