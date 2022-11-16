@@ -1,5 +1,8 @@
 # etcdon
 
+NOTE: This project is no longer maintained as I am no longer running my own
+Mastodon server.
+
 etcdon is a friendly tool for managing Mastodon servers intended to be
 accessible to folks who may not have much administration or programming
 experience. It aims to provide sensible defaults and to be written in a simple
@@ -18,9 +21,8 @@ etcdon is MIT licensed so you can fork it and do as you please.
 
 Note that the default configuration keeps up to 27 compressed backups of your
 database--on a 50MB database that works out to ~200MB of backups. This is
-fine on a smaller server or one with lots of disk space, but I am working to
-adjust this to something more sensible as etcdon intends to be lean and nice,
-despite those words not rhyming.
+fine on a smaller server or one with lots of disk space, but otherwise you
+should consider adjusting the defaults.
 
 This script will ask for the hostname or IP address of your Mastodon server. If
 your server is referred to by its domain name that is also its hostname. You
