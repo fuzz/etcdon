@@ -1,7 +1,10 @@
 # etcdon
 
 NOTE: This project is no longer maintained as I am no longer running my own
-Mastodon server.
+Mastodon server. As of November 16, 2022 it is working with the [Digital Ocean
+1-click Mastodon install](https://marketplace.digitalocean.com/apps/mastodon),
+version 3.5.3, with an Ubuntu laptop collecting the backups. Collecting should
+work on any POSIX system with cron, git, openssh and rsync.
 
 etcdon is a friendly tool for managing Mastodon servers intended to be
 accessible to folks who may not have much administration or programming
@@ -9,13 +12,7 @@ experience. It aims to provide sensible defaults and to be written in a simple
 and clear style that can be easily understood and modified by non-programmers
 to accomplish their goals.
 
-etcdon is written against the [Digital Ocean 1-click Mastodon
-install](https://marketplace.digitalocean.com/apps/mastodon), currently version
-3.5.3, and may need modification for other installations.
-
-Please note at this time etcdon is very much a work in progress.
-
-etcdon is MIT licensed so you can fork it and do as you please.
+etcdon is MIT licensed so fork it and do as you please.
 
 ## QuickStart
 
