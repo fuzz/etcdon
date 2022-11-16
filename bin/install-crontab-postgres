@@ -2,10 +2,11 @@
 #
 
 p="${DON_PATH:-$HOME/.config/etcdon}"
-s="ssh root@$DON_HOST"
+h="$(cat $p/local/server)"
+s="ssh root@$h"
 
 echo -n "Installing crontab for postgres user..."
-scp -q "$p"/etc/crontab-postgres root@"$DON_HOST":~/crontab-postgres
+scp -q "$p"/etc/crontab-postgres root@"$h":~/crontab-postgres
 
 $s /bin/sh<<EOF
 mkdir -p backups && crontab -u postgres crontab-postgres

@@ -2,8 +2,9 @@
 #
 
 p="${DON_PATH:-$HOME/.config/etcdon}"
-r="rsync -ac root@$DON_HOST"
-s="ssh root@$DON_HOST"
+h="$(cat $p/local/server)"
+r="rsync -ac root@$h"
+s="ssh root@$h"
 
 echo -n "Gathering database backups..."
 

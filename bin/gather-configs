@@ -2,11 +2,12 @@
 #
 
 p="${DON_PATH:-$HOME/.config/etcdon}"
+h="$(cat $p/local/server)"
 
 echo -n "Gathering config files..."
 
 if rsync -ac --files-from="$p"/etc/gathered-configs \
-  root@"$DON_HOST":/ "$p"/local/configs; then
+  root@"$h":/ "$p"/local/configs; then
     echo "[OK]"; exit 0
 else
     echo "[FAIL]"; exit 1

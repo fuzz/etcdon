@@ -2,7 +2,9 @@
 #
 
 p="${DON_PATH:-$HOME/.config/etcdon}"
-s="ssh root@$DON_HOST"
+h="$(cat $p/local/server)"
+s="ssh root@$h"
+
 touchfile=/var/lib/postgresql/.nobackup
 
 if $s [ -f "$touchfile" ]; then

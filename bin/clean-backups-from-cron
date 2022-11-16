@@ -2,7 +2,9 @@
 #
 
 p="${DON_PATH:-$HOME/.config/etcdon}"
-s="ssh root@$DON_HOST"
+h="$(cat $p/local/server)"
+s="ssh root@$h"
+
 log="$p"/tmp/clean-backups.log
 touchfile=/var/lib/postgresql/.unclean
 

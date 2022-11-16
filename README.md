@@ -6,17 +6,6 @@ experience. It aims to provide sensible defaults and to be written in a simple
 and clear style that can be easily understood and modified by non-programmers
 to accomplish their goals.
 
-etcdon does not support Windows directly as I do not use Windows, but it should
-work on [Cygwin](https://www.cygwin.com/) if you install the
-[cron](https://cygwin.com/packages/summary/cron.html),
-[git](https://cygwin.com/packages/summary/git.html),
-[openssh](https://cygwin.com/packages/summary/openssh.html) and
-[rsync](https://www.cygwin.com/packages/summary/rsync.html) packages and use
-`ln -vfs ~/.config/etcdon/bin/don /usr/bin/` in place of the `sudo ln -vfs
-~/.config/etcdon/bin/don /usr/local/bin/` command in the QuickStart below. You
-should use the Cygwin terminal window rather than the Windows terminal window
-to set up etcdon.
-
 etcdon is written against the [Digital Ocean 1-click Mastodon
 install](https://marketplace.digitalocean.com/apps/mastodon), currently version
 3.5.3, and may need modification for other installations.
@@ -27,102 +16,28 @@ etcdon is MIT licensed so you can fork it and do as you please.
 
 ## QuickStart
 
-Advanced users may wish to read further for more general instructions; if that
-doesn't sound like you, start here! Open a terminal window and type in the
-following, replacing `hostname_or_ip_address_of_your_server` with the
-hostname or IP address of your server. If you registered a domain and your
-server is just referred to by its domain name, that is also its hostname.
-
 Note that the default configuration keeps up to 27 compressed backups of your
 database--on a 50MB database that works out to ~200MB of backups. This is
 fine on a smaller server or one with lots of disk space, but I am working to
 adjust this to something more sensible as etcdon intends to be lean and nice,
 despite those words not rhyming.
 
-```
-mkdir -p ~/.config
-git clone https://github.com/fuzz/etcdon.git ~/.config/etcdon
-sudo ln -vfs ~/.config/etcdon/bin/don /usr/local/bin/
-export DON_HOST=hostname_or_ip_address_of_your_server
-don install-crontab-postgres
-don gather-secrets
-```
-
-### QuickStart DON_HOST
-
-You also need to add the `export DON_HOST=hostname` line to (one of) your
-shell's configuration files so it loads automatically in the future.
-
-#### Ubuntu
-
-On Ubuntu type the following, replacing `hostname` with the hostname or IP
-address of your server. Be sure to use two ">>", which means "add to the end of
-the existing file", rather than using just one ">", which means "overwrite the
-existing file".
+This script will ask for the hostname or IP address of your Mastodon server. If
+your server is referred to by its domain name that is also its hostname. You
+will be asked for your password to complete the install.
 
 ```
-echo "export DON_HOST=hostname" >> ~/.profile
+curl https://raw.githubusercontent.com/fuzz/etcdon/main/setup.sh | /bin/sh
 ```
 
-#### macOS
-
-On macOS type the following, replacing `hostname` with the hostname or IP
-address of your server. Be sure to use two ">>", which means "add to the end of
-the existing file", rather than using just one ">", which means "overwrite the
-existing file".
-
-```
-echo "export DON_HOST=hostname" >> /.zshenv
-```
-
-If you are on a system other than macOS or Ubuntu you can use a search engine
-to find the appropriate file for your system.
-
-### QuickStart local cron
-
-Consider the following command carefully before deciding to run it. It will
-install a `crontab` on your local machine that does two things:
-1. Gathers backups from your server to your local machine once a day
-1. Prunes all but the most recent five database backups from your local machine
-   once a week
-
-If you do not want these things to happen, or want them to happen in a
-different way or at different times, or you already have a crontab, do not run
-this command. You'll need to write your own cron job(s) instead, which is
-outside the scope of this documentation--you can learn more by typing in `man 5
-crontab`.
-
-```
-crontab ~/.config/etc/crontab-local
-```
-
-If the above command completes successfully it will return no output in the
-traditional "no news is good news" Unix style.
-
-To uninstall the crontab and stop the behavior described above type in
-`crontab -r`. You can reinstall it using the command above.
-
-### QuickStart conclusion
-
-If all of the commands above completed successfully, congratulations! You now
-have backups, though you should still look through the Backups section below
-for additional considerations and to learn more about what's going on in case
-something goes wrong or you'd like to customize etcdon. You can skip past the
-Configuration section that comes next; you already did that part.
-
-## Configuration
-
-Skip this section if you successfully completed the QuickStart above.
-
-You do not need to set `DON_PATH` if you install etcdon in `~/.config/etcdon`,
-otherwise set it to the directory in which you do have etcdon installed.
-
-Set `DON_HOST` to the hostname or IP address of your Mastodon server.
-
-You may wish to copy/link `bin/don` into your `PATH` for convenience. The rest
-of this documentation will assume that you have done this.
+If you wish to stop etcdon from running, type `crontab -r` into a terminal
+window. You can re-run the setup script to start it again. You will also need
+to run `sudo crontab -u postgres -r` on your server.
 
 ## Backups
+
+Read this to understand what etcdon is doing. This will help you understand
+what is happening if something goes wrong, how to modify it for you needs, etc.
 
 etcdon backups have three primary components:
 1. Cron jobs that run as the postgres user hourly generating compressed
@@ -138,15 +53,15 @@ go) is itself backed up. If this is not the case and you really don't want to
 set backups up for some reason (backups are your friend!) you should take
 additional backup steps as etcdon alone will not save you from scenarios like
 data corruption on the server--etcdon will happily sync over the corrupt data,
-leaving you bad data on both sides. Our database backups are
-largely immune to this as we keep several copies of those, and keeping configs
-in a git repo as recommended will protect those. Losing the Redis backup isn't
-catastrophic so we don't worry about it. That leaves uploads, which are left as
-an exercise to the sysop as they may be quite large--there's no
-one-size-fits-all solution besides letting your local backup system take care
-of it (assuming you have the room). Of course you can use S3 or similar for
-backups, and I'll probably get around to adding support for it, but etcdon is
-local first as much as possible.
+leaving you bad data on both sides. Our database backups are largely immune to
+this as we keep several copies of those, and keeping configs in a git repo as
+recommended will protect those. Losing the Redis backup isn't catastrophic so
+we don't worry about it. That leaves uploads, which are left as an exercise to
+the sysop as they may be quite large--there's no one-size-fits-all solution
+besides letting your local backup system take care of it (assuming you have the
+room). Of course you can use S3 or similar for backups, and I may get around to
+adding support for it, but etcdon is concerned most with you owning your own
+data.
 
 The official Mastodon backup documentation is
 [here](https://docs.joinmastodon.org/admin/backups/).
@@ -217,6 +132,19 @@ Install a crontab for the postgres user. The included crontab creates a
 compressed backup of the entire database every hour and cleans out all but the
 most recent 3 backups every day. This only needs to be run once unless you
 want to change postgres's crontab.
+
+### Windows?
+
+etcdon does not support Windows directly as I do not use Windows, but it should
+work on [Cygwin](https://www.cygwin.com/) if you install the
+[cron](https://cygwin.com/packages/summary/cron.html),
+[git](https://cygwin.com/packages/summary/git.html),
+[openssh](https://cygwin.com/packages/summary/openssh.html) and
+[rsync](https://www.cygwin.com/packages/summary/rsync.html) packages and use
+`ln -vfs ~/.config/etcdon/bin/don /usr/bin/` in place of the `sudo ln -vfs
+~/.config/etcdon/bin/don /usr/local/bin/` command in the QuickStart below. You
+should use the Cygwin terminal window rather than the Windows terminal window
+to set up etcdon.
 
 ## Tuning
 
