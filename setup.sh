@@ -1,9 +1,18 @@
 #!/bin/sh
 #
 
-p="${DON_PATH:-$HOME/.config/etcdon}"
+p="$HOME"/.config/etcdon
 
 echo "Welcome to etcdon!"
+
+if [ -z "$p" ]; then
+    echo "Cloning etcdon into ~/.config/etcdon..."
+    mkdir -p ~/.config
+    git clone https://github.com/fuzz/etcdon.git ~/.config/etcdon
+else
+    echo "etcdon exists, skipping--use 'rm -rf ~/.config/etcdon' to remove"
+fi
+
 echo "If you have an existing crontab you want to keep, use ctrl-c to exit"
 echo "If you don't know what a crontab is you're all set!"
 echo
@@ -11,15 +20,6 @@ echo -n "What is the hostname or IP address of your server? "
 read -r server
 echo    "Writing $server to local/server"
 echo -n "$server" > "$p"/local/server
-
-mkdir -p ~/.config
-
-if [ -z ~/.config/etcdon ]; then
-    echo "Cloning etcdon into ~/.config/etcdon"
-    git clone https://github.com/fuzz/etcdon.git ~/.config/etcdon
-else
-    echo "etcdon exists, skipping--use 'rm -rf ~/.config/etcdon' to remove"
-fi
 
 sudo ln -vfs ~/.config/etcdon/bin/don /usr/local/bin/
 /usr/local/bin/don install-crontab-postgres
